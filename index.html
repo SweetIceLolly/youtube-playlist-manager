@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YouTube Playlist Manager</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+        <script src="youtubeapi.js"></script>
+        <script src="main.js"></script>
+
+        <div class="page" id="page-getstarted">
+            YouTube Playlist Manager
+            <div><br></div>
+            <div class="instruction">
+                Create, duplicate playlists
+            </div>
+            <div class="instruction">
+                Delete/copy multiple playlist items
+            </div>
+            <div class="instruction">
+                Copy all liked videos to a playlist
+            </div>
+            <div class="instruction">
+                Compare, synchronize between playlists
+            </div>
+            <button id="btn-getstarted" onclick="switchScreen('#page-getstarted', '#page-readme')">Get Started</button>
+        </div>
+
+        <div class="page" id="page-readme">
+            READ ME!
+            <div class="auth-step">
+                Open Source
+            </div>
+            <div class="instruction">
+                This site is open-source under MIT License and is published through GitHub. You can <a href="https://github.com/SweetIceLolly/youtube-playlist-manager" target="_blank">check out the source code</a>.
+            </div>
+            <div class="auth-step">
+                Disclaimer
+            </div>
+            <div class="instruction">
+                Even though I tried my best to write the code of this site, and every function is tested with my YouTube account, I cannot guarantee that this site will work as expected. <span style="color: yellow;">There can be potential bugs that damage your YouTube personal content.</span> I am not responsible for your use of the function or information contained in or linked from this website. I am not responsible for any errors or omissions, or for the results obtained from the use of this website.
+            </div>
+            <button class="btn-nextback" id="btn-authback" onclick="switchScreen('#page-readme', '#page-getstarted')">Back</button>
+            <button class="btn-nextback" id="btn-authnext" onclick="switchScreen('#page-readme', '#page-start')">Continue</button>
+        </div>
+
+        <div class="page" id="page-start">
+            LET&apos;S START!
+            <div class="auth-step">
+                Tutorial
+            </div>
+            <div class="instruction">
+                If you&apos;ve already followed this tutorial to create your Client ID, you can <a href="javascript:void(0)" onclick="switchScreen('#page-start', '#page-clientid')">skip this tutorial</a>.
+            </div>
+            <div class="instruction">
+                If not, please follow this tutorial. The process might be complicated and annoying, but once you&apos;ve set up, you won&apos;t need to do it next time.
+            </div>
+            <button class="btn-nextback" id="btn-authback" onclick="switchScreen('#page-start', '#page-readme')">Back</button>
+            <button class="btn-nextback" id="btn-authnext" onclick="switchScreen('#page-start', '#page-youtube')">Let&apos;s do this!</button>
+        </div>
+
+        <div class="page" id="page-youtube">
+            YouTube Setup
+            <div class="auth-step">
+                Create YouTube Channel
+            </div>
+            <div class="instruction">
+                If you already have a YouTube channel, you can <a href="javascript:void(0)" onclick="switchScreen('#page-youtube', '#page-api')">skip this step</a>.
+            </div>
+            <div class="instruction">
+                If you don&apos;t have a YouTube channel, please create one. Otherwise, this tool won&apos;t work.
+            </div>
+            <div class="instruction">
+                Go to <a href="https://www.youtube.com/" target="_blank">YouTube</a>.
+            </div>
+            <div class="instruction">
+                Click your account icon on the right-top side, and select &quot;Create a channel&quot;. Then, follow the instruction to create your channel. You are good to proceed when YouTube tells you &quot;Your channel has been created&quot;.
+            </div>
+            <div class="instruction">
+                Tip: If you see &quot;Your channel&quot; instead of &quot;Create a channel&quot;, it means you already have a YouTube channel, and you are good to proceed.
+            </div>
+            <a href="images/youtube-create-channel.png" target="_blank">
+                <img class="stepimage" src="images/youtube-create-channel.png">
+            </a>
+            <br>
+            <button class="btn-nextback" id="btn-authback" onclick="switchScreen('#page-youtube', '#page-start')">Back</button>
+            <button class="btn-nextback" id="btn-authnext" onclick="switchScreen('#page-youtube', '#page-api')">Next</button>
+        </div>
+
+        <div class="page" id="page-api">
+            Google API Setup
+            <div class="auth-step">
+                Create a Google API Project
+            </div>
+            <div class="instruction">
+                Go to <a href="https://console.developers.google.com/projectselector2/apis/dashboard" target="_blank">Google Cloud Platform Console</a>.
+            </div>
+            <div class="instruction">
+                If this is your first time using it, the following screen will appear. Select your country, determine if you want Email updates, and continue after agreeing Terms of Service.
+            </div>
+            <a href="images/api-first-time.png" target="_blank">
+                <img class="stepimage" src="images/api-first-time.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Click &quot;CREATE PROJECT&quot; at Dashboard.
+            </div>
+            <a href="images/api-create-project-1.png" target="_blank">
+                <img class="stepimage" src="images/api-create-project-1.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Input a Project name and click &quot;CREATE&quot;.
+            </div>
+            <a href="images/api-create-project-2.png" target="_blank">
+                <img class="stepimage" src="images/api-create-project-2.png">
+            </a>
+            <br>
+            <div class="auth-step">
+                Enable YouTube API
+            </div>
+            <div class="instruction">
+                Click &quot;Library&quot; on the left panel to enter API Library. Scroll down and click &quot;YouTube Data API v3&quot;, then click &quot;ENABLE&quot;. 
+            </div>
+            <a href="images/api-select-library-1.png" target="_blank">
+                <img class="stepimage" src="images/api-select-library-1.png">
+            </a>
+            <br>
+            <a href="images/api-select-library-2.png" target="_blank">
+                <img class="stepimage" src="images/api-select-library-2.png">
+            </a>
+            <br>
+            <div class="auth-step">
+                Configure OAuth Consent Screen
+            </div>
+            <div class="instruction">
+                Go to &quot;OAuth consent screen&quot; via Navigation menu.
+            </div>
+            <a href="images/api-oauth-scr-1.png" target="_blank">
+                <img class="stepimage" src="images/api-oauth-scr-1.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Select &quot;External&quot;, then click &quot;CREATE&quot;.
+            </div>
+            <a href="images/api-oauth-scr-2.png" target="_blank">
+                <img class="stepimage" src="images/api-oauth-scr-2.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Input an Application name, then click &quot;Save&quot;. You can ignore other fields.
+            </div>
+            <a href="images/api-oauth-scr-3.png" target="_blank">
+                <img class="stepimage" src="images/api-oauth-scr-3.png">
+            </a>
+            <br>
+            <div class="auth-step">
+                Create an OAuth Client Credential
+            </div>
+            <div class="instruction">
+                Go to &quot;Credentials&quot; via Navigation menu.
+            </div>
+            <a href="images/api-create-credential-1.png" target="_blank">
+                <img class="stepimage" src="images/api-create-credential-1.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Click &quot;CREATE CREDENTIALS&quot;, then select &quot;OAuth client ID&quot;.
+            </div>
+            <a href="images/api-create-credential-2.png" target="_blank">
+                <img class="stepimage" src="images/api-create-credential-2.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Select &quot;Web application&quot; for Application type. Input a name for this credential. Click &quot;ADD URI&quot; in &quot;Authorized JavaScript origins&quot; section and input URI of this site: &quot;https://sweeticelolly.github.io&quot; (Not including quotation marks). Then, click &quot;CREATE&quot;.
+            </div>
+            <a href="images/api-create-credential-3.png" target="_blank">
+                <img class="stepimage" src="images/api-create-credential-3.png">
+            </a>
+            <br>
+            <div class="instruction">
+                The page will tell you OAuth client created. Copy your Client ID. We will use it in the next step. <span style="color: yellow;">Do NOT share your Client ID or Client Secret with others!</span>
+            </div>
+            <a href="images/api-create-credential-4.png" target="_blank">
+                <img class="stepimage" src="images/api-create-credential-4.png">
+            </a>
+            <br>
+            <button class="btn-nextback" id="btn-authback" onclick="switchScreen('#page-api', '#page-youtube')">Back</button>
+            <button class="btn-nextback" id="btn-authnext" onclick="switchScreen('#page-api', '#page-clientid')">Next</button>
+        </div>
+
+        <div class="page" id="page-clientid">
+            Authentication
+            <div class="auth-step">
+                Enter Your Credential
+            </div>
+            <div class="instruction">
+                Copy the Client ID to the textbox below and click &quot;Sign in&quot;.
+            </div>
+            <input type="text" id="ed-clientid" onkeypress="edClientIdKeypress(event)" placeholder="Paste your Client ID here :)" autofocus>
+            <div class="instruction status" id="text-autherror"></div>
+            <button class="btn-nextback" id="btn-authback" onclick="switchScreen('#page-clientid', '#page-api')">Back</button>
+            <button class="btn-nextback" id="btn-authnext" onclick="switchToMainAfterAuth()">Sign in</button>
+            <div class="instruction">
+                If Google says &quot;This app isn&apos;t verified&quot;, click &quot;Advanced&quot; and click &quot;Go to sweeticelolly.github.io (unsafe)&quot;. If you are concerned about safety, you can <a href="https://github.com/SweetIceLolly/youtube-playlist-manager" target="_blank">check out the source code</a>.
+            </div>
+            <a href="images/not-verified.png" target="_blank">
+                <img class="stepimage" src="images/not-verified.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Allow this tool to perform operations to your YouTube playlists.
+            </div>
+            <a href="images/grant-permission.png" target="_blank">
+                <img class="stepimage" src="images/grant-permission.png">
+            </a>
+            <br>
+            <div class="instruction">
+                Confirm your choices.
+            </div>
+            <a href="images/confirm-choice.png" target="_blank">
+                <img class="stepimage" src="images/confirm-choice.png">
+            </a>
+            <br>
+            <div><br></div>
+        </div>
+
+        <ul class="page navbar" id="main_navbar">
+            <li><button class="btn-navbar btn-navbar-sel" id="btn-create" onclick="btnCreateClick()">Create</button></li>
+            <li><button class="btn-navbar" id="btn-clone" onclick="btnCloneClick()">Clone</button></li>
+            <li><button class="btn-navbar" id="btn-sync" onclick="btnSyncClick()">Sync</button></li>
+            <li><button class="btn-navbar" id="btn-manage" onclick="btnManageClick()">Manage</button></li>
+            <li class="navbar-right"><button class="btn-navbar" id="btn-refresh" onclick="loadUserPlaylist()"><img class="navbarimg" src="images/refresh.png"></button></li>
+        </ul>
+
+        <div class="page" id="page-create">
+            Create Playlist
+            <div class="instruction">
+                Create an empty playlist
+            </div>
+            <br>
+            <div class="instruction status">Name of the new playlist: </div>
+            <input type="text" id="ed-newplaylistname" onkeypress="edNewPlaylistNameKeypress(event)" placeholder="Playlist name" autofocus>
+            <div class="instruction status">Description of the playlist: </div>
+            <input type="text" id="ed-newplaylistdesc" onkeypress="edNewPlaylistDescKeypress(event)" placeholder="Playlist description">
+            <div class="instruction status" id="text-createerror"></div>
+            <button class="btn-nextback" id="btn-create" onclick="btnCreatePlaylistClick()">Create</button>
+        </div>
+
+        <div class="page" id="page-clone">
+            Clone Playlist
+            <div class="instruction">
+                Clone your or other&apos;s playlist to a new playlist
+            </div>
+            <div class="instruction">
+                <span style="color: yellow;">WARNING: Copying a large playlist (More than around 160 videos, depending on <a href="https://console.cloud.google.com/iam-admin/quotas" target="_blank">your quota left</a>) can be resulted in errors due to <a href="https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas" target="_blank">Google API quota limitation</a>.</span>
+            </div>
+            <br>
+            <div class="instruction status">From your playlist</div>
+            <div class="container" id="container-clone"></div>
+            <div class="instruction status">Or playlist ID / link</div>
+            <input type="text" id="ed-clonelink" placeholder="Playlist ID or link" onkeypress="edCloneLinkChanged();edCloneLinkKeypress(event)" oninput="edCloneLinkChanged()" onchange="edCloneLinkChanged()" autofocus>
+            <div class="instruction status">To</div>
+            <input type="text" id="ed-clonename" onkeypress="edCloneNameKeypress(event)" placeholder="Name of the cloned playlist">
+            <div class="instruction status" id="text-cloneerror"></div>
+            <button class="btn-nextback" id="btn-clone" onclick="btnClonePlaylistClick()">Clone</button>
+        </div>
+
+        <div class="page" id="page-sync">
+            Sync Playlist
+            <div class="instruction">
+                Compare differences between two playlists and synchronize
+            </div>
+            <div class="instruction">
+                <span style="color: yellow;">This will make the second playlist the same as the first one</span>
+            </div>
+            <div class="instruction">
+                Clicking "Compare" will NOT synchronize. You can see the operations that will be executed before synchronizing.
+            </div>
+            <br>
+            <div class="instruction">
+                Select the first playlist
+            </div>
+            <div class="instruction status">From your playlist</div>
+            <div class="container" id="container-sync-1"></div>
+            <div class="instruction status">Or playlist ID / link</div>
+            <input type="text" id="ed-synclink" placeholder="Playlist ID or link" onkeypress="edSyncLinkChanged();" oninput="edSyncLinkChanged()" onchange="edSyncLinkChanged()" autofocus>
+            <div class="instruction">
+                Select the second playlist (this has to be your playlist)
+            </div>
+            <div class="container" id="container-sync-2"></div>
+            <div class="instruction status" id="text-compareerror"></div>
+            <button class="btn-nextback" id="btn-compare" onclick="btnComparePlaylistClick()">Compare</button>
+            <div id="sync-op" style="display: none">
+                <div class="instruction status">The following operations will be executed on the second playlist:</div>
+                <div class="instruction">
+                    Clicking "Sync" will start synchronizing. <span style="color: yellow;">All operations CANNOT be undone!</span> Make sure you have checked the following operations carefully.
+                </div>
+                <div class="container" id="container-sync-op"></div>
+                <div class="instruction status" id="text-syncerror"></div>
+                <button class="btn-nextback" id="btn-sync" onclick="btnSyncPlaylistClick()">Sync</button>    
+            </div>
+        </div>
+
+        <div class="page" id="page-manage">
+            Manage Playlist
+            <div class="instruction">
+                Delete mutliple playlist items, or copy multiple items to another playlist
+            </div>
+            <br>
+            <div class="instruction">
+                Specify a playlist
+            </div>
+            <div class="instruction status">Your playlist</div>
+            <div class="container" id="container-manage"></div>
+            <div class="instruction status">Or playlist ID / link</div>
+            <input type="text" id="ed-managelink" placeholder="Playlist ID or link" onkeypress="edManageLinkChanged();" oninput="edManageLinkChanged()" onchange="edManageLinkChanged()" autofocus>
+            <br>
+            <div class="instruction status" id="text-managloadeerror"></div>
+            <button class="btn-nextback" id="btn-load" onclick="btnLoadItemsClick()">Load</button>
+            <div class="instruction">
+                Select playlist items
+            </div>
+            <div class="instruction">
+                Delete: Remove selected items. <span style="color: yellow;">The specified playlist must be YOURS.</span>
+            </div>
+            <div class="instruction">
+                Copy: Copy selected items to the "clipboard".
+            </div>
+            <div class="instruction">
+                Paste: Add items in the "clipboard" to the specified playlist. <span style="color: yellow;">The specified playlist must be YOURS.</span>
+            </div>
+            <div class="container" id="container-manage-items"></div>
+            <div class="instruction status" id="text-manageerror">0 item(s) selected</div>
+            <button class="btn-nextback" id="btn-delete" onclick="btnDeleteItemsClick()">Delete</button>
+            <button class="btn-nextback" id="btn-compare" onclick="btnCopyItemsClick()">Copy</button>
+            <button class="btn-nextback" id="btn-compare" onclick="btnPasteItemsClick()">Paste</button>
+        </div>
+
+        <div class="page footer">
+            Copyright &#169; 2020 YouTube Playlist Manager, made with <span style="color: #e25555;">&#10084;</span> by <a style="color: #fff;" href="https://github.com/SweetIceLolly" target="_blank">SweetIceLolly</a>
+        </div>
+    </body>
+</html>
